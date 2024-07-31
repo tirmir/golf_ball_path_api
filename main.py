@@ -6,9 +6,13 @@ import math
 
 app = FastAPI()
 
-class PathResponse(BaseModel):
-    path: List[Tuple[int, int]]
+class PathPoint(BaseModel):
+    x: int
+    y: int
 
+class PathResponse(BaseModel):
+    path: List[PathPoint]
+    
 @app.get("/simulate_golf_ball_path", response_model=PathResponse)
 def simulate_golf_ball_path():
     # Parameters for the parabolic trajectory
@@ -35,8 +39,8 @@ def simulate_golf_ball_path():
         if y < 0:
             y = 0
             break
-
-        path.append({'x': int(x), 'y': int(y)})
+            
+        path.append(PathPoint(x=int(x), y=int(y)))
         t += time_step
     
     return PathResponse(path=path)
@@ -44,4 +48,3 @@ def simulate_golf_ball_path():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-

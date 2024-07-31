@@ -36,7 +36,7 @@ def simulate_golf_ball_path():
             y = 0
             break
 
-        path.append((int(x), int(y)))
+        path.append({'x': int(x), 'y': int(y)})
         t += time_step
     
     return PathResponse(path=path)
